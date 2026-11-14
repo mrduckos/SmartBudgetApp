@@ -57,6 +57,30 @@ router.post("/", async (_req, res) => {
             type
         } = _req.body
 
+        if (!description?.trim()) {
+            return res.status(400).json({
+                message: "description is required"
+            })
+        }
+
+        if (amount <= 0) {
+            return res.status(400).json({
+                message: "amount must be greater than 0"
+            })
+        }
+
+        if (isNaN(Date.parse(transactionDate))) {
+            return res.status(400).json({
+                message: "transactionDate must be a valid date (YYYY-MM-DD)"
+            })
+        }
+
+        if (type !== "income" && type !== "expense") {
+            return res.status(400).json({
+                message: "type must be either 'income' or 'expense'"
+            })
+        }
+
         const result = await pool.query (
             `
             INSERT INTO transactions
