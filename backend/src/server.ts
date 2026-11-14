@@ -3,6 +3,9 @@ import transactionsRouter from "./routes/transactions.js"
 import { pool } from "./db/database.js"
 
 const app = express()
+
+app.use(express.json())
+
 const PORT = 3001
 
 app.use("/api/transactions", transactionsRouter)
