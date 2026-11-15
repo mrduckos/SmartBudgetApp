@@ -62,7 +62,13 @@ useEffect(() => {
             <tr key={transaction.id}>
               <td>{transaction.description}</td>
               <td>{transaction.amount}</td>
-              <td>{transaction.type}</td>
+              <td 
+                className={
+                  transaction.type === 'income' ? 'income' : 'expense'
+                }
+              >
+                {transaction.type}
+              </td>
               <td>
                 {new Date(
                   transaction.transaction_date
