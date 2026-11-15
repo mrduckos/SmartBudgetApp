@@ -2,6 +2,6 @@ export interface Transaction {
   id: number,
   description: string,
   amount: number,
-  transactionDate: Date,
+  transaction_Date: Date,
   type: 'income' | 'expense',
 }

@@ -46,13 +46,33 @@ useEffect(() => {
       </section>
 
       <h2>Transactions</h2>
-      <ul>
-        {transactions.map((transaction) => (
-          <li key={transaction.id}>
-            {transaction.description} - {transaction.amount} €
-          </li>
-        ))}
-      </ul>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.description}</td>
+              <td>{transaction.amount}</td>
+              <td>{transaction.type}</td>
+              <td>
+                {new Date(
+                  transaction.transaction_date
+                  ).toLocaleDateString('fi-FI')}
+              </td>
+              
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </main>
   )
 }
