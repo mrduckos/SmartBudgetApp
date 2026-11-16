@@ -81,13 +81,14 @@ return (
       </p>
 
       <section>
-        <h2>planned Features</h2>
+        <h2>Features currently implemented</h2>
 
         <ul>
-          <li>Expense tracking</li>
-          <li>Income tracking</li>
-          <li>Budget planning</li>
-          <li>Monthly reports</li>
+          <li>✅Transaction storage</li>
+          <li>✅PostgreSQL integration</li>
+          <li>✅REST API</li>
+          <li>✅Transaction validation</li>
+          <li>✅Full-stack data flow</li>
         </ul>
       </section>
 
@@ -137,7 +138,7 @@ return (
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
               <td>{transaction.description}</td>
-              <td>{transaction.amount}</td>
+              <td>{transaction.amount}€</td>
               <td 
                 className={
                   transaction.type === 'income' ? 'income' : 'expense'
