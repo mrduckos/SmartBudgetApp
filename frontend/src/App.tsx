@@ -6,6 +6,10 @@ import type { Transaction } from './types/transaction'
 function App() {
 
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [description, setDescription] = useState("")
+  const [amount, setAmount] = useState<number>(0)
+  const [transactionDate, setTransactionDate] = useState("")
+  const [type, setType] = useState<"income" | "expense">("expense")
 
 useEffect(() => {
   async function fetchTransactions() {
@@ -26,7 +30,49 @@ useEffect(() => {
   fetchTransactions()
 }, [])
 
-  return (
+async function handleSubmit(
+  event: React.FormEvent<HTMLFormElement>
+) {
+  event.preventDefault()
+
+  try {
+    const response = await fetch(
+      'http://localhost:3001/api/transactions',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          description,
+          amount: Number(amount),
+          transactionDate,
+          type,
+        }),
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to add transaction')
+    }
+
+    const newTransaction: Transaction = await response.json()
+
+    setTransactions((currentTransactions) => [
+      newTransaction,
+      ...currentTransactions,
+    ])
+
+    setDescription("")
+    setAmount(0)
+    setTransactionDate("")
+    setType("expense")
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+return (
     <main>
       <h1>Smart Budget</h1>
 
@@ -44,6 +90,36 @@ useEffect(() => {
           <li>Monthly reports</li>
         </ul>
       </section>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <input
+          type="number"
+          step="0.01"
+          min="0.01"
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) => setAmount(parseFloat(e.target.value))}
+        />
+        <input
+          type="date"
+          value={transactionDate}
+          onChange={(e) => setTransactionDate(e.target.value)}
+          />
+          <select 
+            value={type}
+            onChange={(e) => setType(e.target.value as "income" | "expense")}
+          >
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <button type="submit">Add Transaction</button>
+      </form>
 
       <h2>Transactions</h2>
 
