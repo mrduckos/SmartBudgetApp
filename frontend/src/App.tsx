@@ -10,6 +10,9 @@ function App() {
   const [amount, setAmount] = useState<number>(0)
   const [transactionDate, setTransactionDate] = useState("")
   const [type, setType] = useState<"income" | "expense">("expense")
+  const [isSaving, setIsSaving] = useState(false)
+  const [message, setMessage] = useState("")
+
 
 useEffect(() => {
   async function fetchTransactions() {
@@ -35,6 +38,9 @@ async function handleSubmit(
 ) {
   event.preventDefault()
 
+  setIsSaving(true)
+  setMessage("Saving transaction...")
+
   try {
     const response = await fetch(
       'http://localhost:3001/api/transactions',
@@ -52,23 +58,31 @@ async function handleSubmit(
       }
     )
 
+    const data = await response.json()
+
     if (!response.ok) {
-      throw new Error('Failed to add transaction')
+      throw new Error(data.message || 'Failed to save transaction')
     }
 
-    const newTransaction: Transaction = await response.json()
-
     setTransactions((currentTransactions) => [
-      newTransaction,
+      data,
       ...currentTransactions,
     ])
+
+    setMessage("Transaction saved successfully!")
 
     setDescription("")
     setAmount(0)
     setTransactionDate("")
     setType("expense")
   } catch (error) {
-    console.error(error)
+    if (error instanceof Error) {
+      setMessage(error.message)
+    } else {
+      setMessage("Something went wrong")
+    }
+  } finally {
+    setIsSaving(false)
   }
 }
 
@@ -119,7 +133,11 @@ return (
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
-          <button type="submit">Add Transaction</button>
+          <button type="submit" disabled={isSaving}>
+            {isSaving ? "Saving..." : "Add Transaction"}
+          </button>
+
+          {message && <p className="form-message">{message}</p>}
       </form>
 
       <h2>Transactions</h2>
