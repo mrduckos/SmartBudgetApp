@@ -4,9 +4,9 @@ body {
 }
 
 main {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 h1 {
@@ -44,7 +44,8 @@ th {
 
 .transaction-form {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 1rem;
   justify-content: center;
   margin: 2rem 0;
   flex-wrap: wrap;
@@ -52,9 +53,10 @@ th {
 
 .form-card {
   background: #242424;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 500px;
 }
 
 .amount-column {
@@ -67,4 +69,99 @@ tbody tr:hover {
 
 .form-message {
   margin-top: 0.75rem;
+}
+
+button {
+  background: #7b3fe4;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #1d1d1d;
+  color: white;
+}
+
+.summary-container {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.summary-card {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.income {
+  color: rgba(76, 175, 80, 0.8);
+}
+
+.expense {
+  color: rgba(244, 67, 54, 0.8);
+}
+.balance {
+  color: rgba(33, 150, 243, 0.8);
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+} 
+
+.summary-card p {
+  margin-top: 0.5rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.type-selector button {
+  flex: 1;
+  background: #2c2c2c;
+  color: white;
+  border: 1px solid #444;
+}
+
+.active-expense {
+  background: #f44336 !important;
+  border-color: #f44336;;
+  color: white;
+}
+
+.active-income {
+  background: #4caf50 !important;
+  border-color: #4caf50;
+  color: white;
+}
+
+.type-selector button:hover {
+  transform: translateY(-1px);
+}
+
+.active-income:hover {
+  background: #43a047 !important;
+}
+
+.active-expense:hover {
+  background: #e53935 !important;
 }

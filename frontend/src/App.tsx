@@ -13,6 +13,16 @@ function App() {
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
 
+  const totalIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((acc, transaction) => acc + Number(transaction.amount), 0)
+
+  const totalExpense = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce((acc, transaction) => acc + Number(transaction.amount), 0)
+
+  const balance = totalIncome - totalExpense
+
 
 useEffect(() => {
   async function fetchTransactions() {
@@ -106,39 +116,69 @@ return (
         </ul>
       </section>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.01"
-          min="0.01"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(parseFloat(e.target.value))}
-        />
-        <input
-          type="date"
-          value={transactionDate}
-          onChange={(e) => setTransactionDate(e.target.value)}
-          />
-          <select 
-            value={type}
-            onChange={(e) => setType(e.target.value as "income" | "expense")}
-          >
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
-          <button type="submit" disabled={isSaving}>
-            {isSaving ? "Saving..." : "Add Transaction"}
-          </button>
+      <div className="form-card">
+        <h2>Add Transaction</h2>
 
-          {message && <p className="form-message">{message}</p>}
-      </form>
+          <form className="transaction-form"
+          onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              type="number"
+              step="0.01"
+              min="0.01"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(parseFloat(e.target.value))}
+            />
+            <input
+              type="date"
+              value={transactionDate}
+              onChange={(e) => setTransactionDate(e.target.value)}
+              />
+              <div className="type-selector">
+                <button
+                  type="button"
+                  className={type === "income" ? "active-income" : ""}
+                  onClick={() => setType("income")}
+                >
+                  Income
+                </button>
+                <button
+                  type="button"
+                  className={type === "expense" ? "active-expense" : ""}
+                  onClick={() => setType("expense")}
+                >
+                  Expense
+                </button>
+              </div>
+              <button type="submit" disabled={isSaving}>
+                {isSaving ? "Saving..." : "Add Transaction"}
+              </button>
+
+              {message && <p className="form-message">{message}</p>}
+          </form>
+      </div>
+
+
+      <div className="Summary-container">
+        <div className="Summary-card income-card">
+          <h3>Total Income</h3>
+          <p className="income">{totalIncome.toFixed(2)}€</p>
+        </div>
+        <div className="Summary-card expense-card">
+          <h3>Total Expense</h3>
+          <p className="expense">{totalExpense.toFixed(2)}€</p>
+        </div>
+        <div className="Summary-card balance-card">
+          <h3>Balance</h3>
+          <p className="balance">{balance.toFixed(2)}€</p>
+        </div>
+      </div>
 
       <h2>Transactions</h2>
 
