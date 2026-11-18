@@ -210,7 +210,7 @@ return (
             <th>Amount</th>
             <th>Type</th>
             <th>Date</th>
-            <th>Actions</th>
+            <th className="actions-column">Actions</th>
           </tr>
         </thead>
 
@@ -231,9 +231,9 @@ return (
                   transaction.transaction_date
                   ).toLocaleDateString('fi-FI')}
               </td>
-              <td>
+              <td className="actions-column">
                 <button
-                  className="delete-btn"
+                  className="delete-button"
                   onClick={() => handleDelete(transaction.id)}
                 >
                   Delete

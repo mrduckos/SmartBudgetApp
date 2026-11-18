@@ -166,13 +166,19 @@ input, select {
   background: #e53935 !important;
 }
 
-.delete-button {
+button.delete-button {
   background: #b91c1c;
   color: white;
   padding: 0.4rem 0.7rem;
   border-radius: 6px;
 }
 
-.delete-button:hover {
+button.delete-button:hover {
   background: #dc2626;
+}
+
+.actions-column {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
