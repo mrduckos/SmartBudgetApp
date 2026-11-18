@@ -196,3 +196,9 @@ button.delete-button:hover {
   justify-content: center;
   text-align: center;
 }
+
+@media (max-width: 700px) {
+  .summary-container {
+    flex-direction: column;
+  }
+}
