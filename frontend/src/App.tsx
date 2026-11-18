@@ -121,21 +121,28 @@ return (
     <main>
       <h1>Smart Budget</h1>
 
-      <p>
-        Personal finance management app built with React, Typescript, Node.js and PostgreSQL. It allows users to track their income, expenses, and savings goals, providing insights and visualizations to help them make informed financial decisions.
+      <p className='app-description'>
+        Manage your income and expenses with a full-stack budgeting application.
       </p>
 
-      <section>
-        <h2>Features currently implemented</h2>
-
-        <ul>
-          <li>✅Transaction storage</li>
-          <li>✅PostgreSQL integration</li>
-          <li>✅REST API</li>
-          <li>✅Transaction validation</li>
-          <li>✅Full-stack data flow</li>
-        </ul>
-      </section>
+       <div className="summary-container">
+        <div className='summary-card transactions-card'>
+          <h3>Transactions made</h3>
+          <p>{transactions.length}</p>
+        </div>
+        <div className="summary-card income-card">
+          <h3>Total Income</h3>
+          <p className="income">{totalIncome.toFixed(2)} €</p>
+        </div>
+        <div className="summary-card expense-card">
+          <h3>Total Expense</h3>
+          <p className="expense">{totalExpense.toFixed(2)} €</p>
+        </div>
+        <div className="summary-card balance-card">
+          <h3>Balance</h3>
+          <p className="balance">{balance.toFixed(2)} €</p>
+        </div>
+      </div>
 
       <div className="form-card">
         <h2>Add Transaction</h2>
@@ -183,22 +190,6 @@ return (
 
               {message && <p className="form-message">{message}</p>}
           </form>
-      </div>
-
-
-      <div className="summary-container">
-        <div className="summary-card income-card">
-          <h3>Total Income</h3>
-          <p className="income">{totalIncome.toFixed(2)}€</p>
-        </div>
-        <div className="summary-card expense-card">
-          <h3>Total Expense</h3>
-          <p className="expense">{totalExpense.toFixed(2)}€</p>
-        </div>
-        <div className="summary-card balance-card">
-          <h3>Balance</h3>
-          <p className="balance">{balance.toFixed(2)}€</p>
-        </div>
       </div>
 
       <h2>Transactions</h2>

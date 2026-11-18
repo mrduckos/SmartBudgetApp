@@ -3,6 +3,12 @@ body {
   margin: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* korjaa lomakkeen ylivuodon kortin reunan yli */
+}
+
 main {
   max-width: 1000px;
   margin: 0 auto;
@@ -10,7 +16,7 @@ main {
 }
 
 h1 {
-  color: #67407a;
+  color: #a78bfa;
 }
 
 ul {
@@ -40,6 +46,64 @@ td {
 
 th {
   background: #2c2c2c;
+}
+
+.app-description {
+  text-align: center;
+  color: #a0a0a0;
+  margin-bottom: 2rem;
+}
+
+.summary-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem 0;
+}
+
+.summary-card {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #242424;
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.summary-card p {
+  margin-top: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.transactions-card {
+  border-top: 4px solid #a855f7;
+}
+
+.transactions-card p {
+  color: #a855f7;
+}
+
+.income-card {
+  border-top: 4px solid #4caf50;
+}
+
+.expense-card {
+  border-top: 4px solid #f44336;
+}
+
+.balance-card {
+  border-top: 4px solid #2196f3;
+}
+
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .transaction-form {
@@ -103,50 +167,6 @@ input, select {
 }
 .balance {
   color: rgba(33, 150, 243, 0.8);
-}
-
-.summary-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem 0;
-}
-
-.summary-card {
-  flex: 1;
-  padding: 1.5rem;
-  border-radius: 12px;
-  background: #242424;
-  text-align: center;
-}
-
-.summary-card h3 {
-  margin: 0;
-  opacity: 0.8;
-  font-size: 0.9rem;
-}
-
-.summary-card p {
-  margin-top: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.income-card {
-  border-top: 4px solid #4caf50;
-}
-
-.expense-card {
-  border-top: 4px solid #f44336;
-}
-
-.balance-card {
-  border-top: 4px solid #2196f3;
-}
-
-.type-selector {
-  display: flex;
-  gap: 0.5rem;
 }
 
 .type-selector button {
