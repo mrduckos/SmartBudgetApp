@@ -186,16 +186,16 @@ return (
       </div>
 
 
-      <div className="Summary-container">
-        <div className="Summary-card income-card">
+      <div className="summary-container">
+        <div className="summary-card income-card">
           <h3>Total Income</h3>
           <p className="income">{totalIncome.toFixed(2)}€</p>
         </div>
-        <div className="Summary-card expense-card">
+        <div className="summary-card expense-card">
           <h3>Total Expense</h3>
           <p className="expense">{totalExpense.toFixed(2)}€</p>
         </div>
-        <div className="Summary-card balance-card">
+        <div className="summary-card balance-card">
           <h3>Balance</h3>
           <p className="balance">{balance.toFixed(2)}€</p>
         </div>

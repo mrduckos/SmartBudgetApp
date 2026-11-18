@@ -94,19 +94,6 @@ input, select {
   color: white;
 }
 
-.summary-container {
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.summary-card {
-  flex: 1;
-  padding: 1rem;
-  border-radius: 12px;
-  text-align: center;
-}
-
 .income {
   color: rgba(76, 175, 80, 0.8);
 }
@@ -118,16 +105,43 @@ input, select {
   color: rgba(33, 150, 243, 0.8);
 }
 
+.summary-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem 0;
+}
+
+.summary-card {
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #242424;
+  text-align: center;
+}
+
 .summary-card h3 {
   margin: 0;
-  font-size: 0.9rem;
   opacity: 0.8;
-} 
+  font-size: 0.9rem;
+}
 
 .summary-card p {
-  margin-top: 0.5rem;
-  font-size: 1.7rem;
+  margin-top: 0.75rem;
+  font-size: 1.5rem;
   font-weight: bold;
+}
+
+.income-card {
+  border-top: 4px solid #4caf50;
+}
+
+.expense-card {
+  border-top: 4px solid #f44336;
+}
+
+.balance-card {
+  border-top: 4px solid #2196f3;
 }
 
 .type-selector {
