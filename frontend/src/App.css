@@ -165,3 +165,14 @@ input, select {
 .active-expense:hover {
   background: #e53935 !important;
 }
+
+.delete-button {
+  background: #b91c1c;
+  color: white;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+}
+
+.delete-button:hover {
+  background: #dc2626;
+}

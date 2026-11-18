@@ -96,6 +96,27 @@ async function handleSubmit(
   }
 }
 
+async function handleDelete(id: number) {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/transactions/${id}`,
+      {
+        method: 'DELETE',
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to delete transaction')
+    }
+
+    setTransactions((currentTransactions) =>
+      currentTransactions.filter((transaction) => transaction.id !== id)
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 return (
     <main>
       <h1>Smart Budget</h1>
@@ -189,6 +210,7 @@ return (
             <th>Amount</th>
             <th>Type</th>
             <th>Date</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -209,7 +231,14 @@ return (
                   transaction.transaction_date
                   ).toLocaleDateString('fi-FI')}
               </td>
-              
+              <td>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(transaction.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
