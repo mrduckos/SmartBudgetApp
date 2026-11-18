@@ -225,7 +225,15 @@ return (
               <td className="actions-column">
                 <button
                   className="delete-button"
-                  onClick={() => handleDelete(transaction.id)}
+                  onClick={() => {
+                    const confirmed = window.confirm (
+                      "Are you sure you want to delete this transaction?"
+                    )
+
+                    if (confirmed) {
+                      handleDelete(transaction.id)
+                    }
+                  }}
                 >
                   Delete
                 </button>
