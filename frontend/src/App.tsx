@@ -12,6 +12,7 @@ function App() {
   const [type, setType] = useState<"income" | "expense">("expense")
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
+  const [editingId, setEditingId] = useState<Number | null>(null)
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -52,10 +53,19 @@ async function handleSubmit(
   setMessage("Saving transaction...")
 
   try {
+
+    const url = editingId 
+    ? `http://localhost:3001/api/transactions/${editingId}`
+    : `http://localhost:3001/api/transactions`
+
+    const method = editingId
+    ? "PATCH"
+    : "POST"
+
     const response = await fetch(
-      'http://localhost:3001/api/transactions',
+      url,
       {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -74,13 +84,30 @@ async function handleSubmit(
       throw new Error(data.message || 'Failed to save transaction')
     }
 
-    setTransactions((currentTransactions) => [
+    if (editingId) {
+      setTransactions((currentTransactions) => 
+        currentTransactions.map((transaction) =>
+          transaction.id === editingId
+            ? data
+            :transaction
+        )
+      )
+
+      setMessage("Transaction updated succesfully")
+
+      setEditingId(null)
+    } else {
+      setTransactions((currentTransactions) => [
       data,
       ...currentTransactions,
     ])
 
-    setMessage("Transaction saved successfully!")
+     setMessage("Transaction saved successfully!")
+    }
 
+  
+
+   
     setDescription("")
     setAmount(0)
     setTransactionDate("")
@@ -115,6 +142,19 @@ async function handleDelete(id: number) {
   } catch (error) {
     console.error(error)
   }
+}
+
+function handleEdit(transaction: Transaction) {
+  setEditingId(transaction.id)
+
+  setDescription(transaction.description)
+
+  setAmount(Number(transaction.amount))
+
+  setTransactionDate(String(transaction.transaction_date).split("T")[0])
+
+  setType(transaction.type)
+
 }
 
 return (
@@ -185,8 +225,27 @@ return (
                 </button>
               </div>
               <button type="submit" disabled={isSaving}>
-                {isSaving ? "Saving..." : "Add Transaction"}
+                {isSaving
+                  ? "Saving..."
+                  : editingId
+                    ? "Update Transaction"
+                    : "Add Transaction"}
               </button>
+
+              {editingId && (
+                <button 
+                  type='button'
+                  onClick={() => {
+                    setEditingId(null);
+                    setDescription("");
+                    setAmount(0);
+                    setTransactionDate("");
+                    setType("expense");
+                  }}
+                >
+                  Cancel
+                </button>
+              )}
 
               {message && <p className="form-message">{message}</p>}
           </form>
@@ -236,6 +295,12 @@ return (
                   }}
                 >
                   Delete
+                </button>
+                <button 
+                  className='edit-button'
+                  onClick={() => handleEdit(transaction)}
+                  >
+                  Edit
                 </button>
               </td>
             </tr>
