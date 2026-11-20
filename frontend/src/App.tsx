@@ -13,6 +13,29 @@ function App() {
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [editingId, setEditingId] = useState<Number | null>(null)
+  const [category, setCategory] = useState("Other Expense")
+
+  const incomeCategories = [
+    "Salary",
+    "Benefits",
+    "Investments",
+    "Sales",
+    "Other Income"
+  ];
+
+  const expenseCagerogies = [
+    "Housing",
+    "Food",
+    "Transport",
+    "Health",
+    "Leisure",
+    "Subscriptions",
+    "Shopping",
+    "Family",
+    "Finance",
+    "Savings",
+    "Other Expense",
+  ];
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -74,6 +97,7 @@ async function handleSubmit(
           amount: Number(amount),
           transactionDate,
           type,
+          category
         }),
       }
     )
@@ -157,6 +181,8 @@ function handleEdit(transaction: Transaction) {
 
 }
 
+const availableCategories = type === 'income' ? incomeCategories : expenseCagerogies
+
 return (
     <main>
       <h1>Smart Budget</h1>
@@ -212,17 +238,36 @@ return (
                 <button
                   type="button"
                   className={type === "income" ? "active-income" : ""}
-                  onClick={() => setType("income")}
+                  onClick={() => {
+                    setType("income")
+                    setCategory("Salary")
+                  }}
                 >
                   Income
                 </button>
                 <button
                   type="button"
                   className={type === "expense" ? "active-expense" : ""}
-                  onClick={() => setType("expense")}
+                  onClick={() => {
+                    setType("expense")
+                    setCategory("Food")
+                  }}
                 >
                   Expense
                 </button>
+                <select 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {availableCategories.map((categoryOption) => (
+                    <option 
+                      key={categoryOption}
+                      value={categoryOption}
+                    >
+                      {categoryOption}
+                    </option>
+                  ))}
+                </select>
               </div>
               <button type="submit" disabled={isSaving}>
                 {isSaving
@@ -260,6 +305,7 @@ return (
             <th>Amount</th>
             <th>Type</th>
             <th>Date</th>
+            <th>Category</th>
             <th className="actions-column">Actions</th>
           </tr>
         </thead>
@@ -281,6 +327,7 @@ return (
                   transaction.transaction_date
                   ).toLocaleDateString('fi-FI')}
               </td>
+              <td>{transaction.category}</td>
               <td className="actions-column">
                 <button
                   className="delete-button"

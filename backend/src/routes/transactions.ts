@@ -1,6 +1,28 @@
 import { Router } from "express"
 import { pool } from "../db/database.js"
 
+  const incomeCategories = [
+    "Salary",
+    "Benefits",
+    "Investments",
+    "Sales",
+    "Other Income",
+  ]
+
+  const expenseCagerogies = [
+    "Housing",
+    "Food",
+    "Transport",
+    "Health",
+    "Leisure",
+    "Subscriptions",
+    "Shopping",
+    "Family",
+    "Finance",
+    "Savings",
+    "Other Expense",
+  ]
+
 const router = Router()
 
 router.get("/", async (_req, res) => {
@@ -54,7 +76,8 @@ router.post("/", async (req, res) => {
             description,
             amount,
             transactionDate,
-            type
+            type,
+            category
         } = req.body
 
         if (!description?.trim()) {
@@ -81,19 +104,34 @@ router.post("/", async (req, res) => {
             })
         }
 
+        if (type === 'income' && !incomeCategories.includes(category)) {
+            return res.status(400).json({
+                message: "Invalid income category"
+            })
+        }
+
+        if (type === 'expense' && !expenseCagerogies.includes(category)) {
+            return res.status(400).json({
+                message: "Invalid expense category"
+            })
+        }
+
+
+
         const result = await pool.query (
             `
             INSERT INTO transactions
-            (description, amount, transaction_date, type)
+            (description, amount, transaction_date, type, category)
             VALUES 
-            ($1, $2, $3, $4)
+            ($1, $2, $3, $4, $5)
             RETURNING *
             `,
             [
                 description,
                 amount,
                 transactionDate,
-                type
+                type,
+                category
             ]
         );
         res.status(201).json(result.rows[0]);
@@ -142,6 +180,7 @@ router.patch("/:id", async (req, res) => {
             amount,
             transactionDate,
             type,
+            category
         } = req.body
 
          if (!description?.trim()) {
@@ -168,6 +207,18 @@ router.patch("/:id", async (req, res) => {
             })
         }
 
+         if (type === 'income' && !incomeCategories.includes(category)) {
+            return res.status(400).json({
+                message: "Invalid income category"
+            })
+        }
+
+        if (type === 'expense' && !expenseCagerogies.includes(category)) {
+            return res.status(400).json({
+                message: "Invalid expense category"
+            })
+        }
+
         const result = await pool.query(
             `
             UPDATE transactions
@@ -175,8 +226,9 @@ router.patch("/:id", async (req, res) => {
                 description = $1,
                 amount = $2,
                 transaction_date = $3,
-                type = $4
-            WHERE id = $5
+                type = $4,
+                category = $5
+            WHERE id = $6
             RETURNING *    
             `,
             [
@@ -184,6 +236,7 @@ router.patch("/:id", async (req, res) => {
                 amount,
                 transactionDate,
                 type,
+                category,
                 id
             ]
         )

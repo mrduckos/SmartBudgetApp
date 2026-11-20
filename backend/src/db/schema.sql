@@ -3,5 +3,6 @@ CREATE TABLE transactions (
     description TEXT NOT NULL,
     amount NUMERIC(10,2) NOT NULL,
     transaction_date DATE NOT NULL,
-    type TEXT NOT NULL
+    type TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT 'other'
 );
