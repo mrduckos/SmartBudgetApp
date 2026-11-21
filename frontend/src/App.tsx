@@ -183,6 +183,23 @@ function handleEdit(transaction: Transaction) {
 
 const availableCategories = type === 'income' ? incomeCategories : expenseCagerogies
 
+const expenseTransactions = transactions.filter(
+  (transaction) => transaction.type === "expense"
+)
+
+const expensesByCategory = expenseTransactions.reduce<
+  Record<string, number>
+>((totals, transaction) => {
+  const category = transaction.category;
+
+  totals[category] =
+    (totals[category] ?? 0) + Number(transaction.amount);
+
+  return totals;
+}, {});
+
+  const categoryEntries = Object.entries(expensesByCategory).sort(([, amountA], [, amountB]) => amountB - amountA)
+
 return (
     <main>
       <h1>Smart Budget</h1>
@@ -209,6 +226,29 @@ return (
           <p className="balance">{balance.toFixed(2)} €</p>
         </div>
       </div>
+
+      <section className='category-summary'>
+        <h2>Expenses by category</h2>
+
+        {categoryEntries.length === 0 ? (
+          <p>No expenses yet</p>
+        ) : (
+          <div className='category-list'>
+            {categoryEntries.map(([category, amount]) => (
+              <div 
+                className='category-row'
+                key={category}
+                >
+                  <span>{category}</span>
+
+                  <strong>
+                    {amount.toFixed(2)} €
+                  </strong>
+                </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <div className="form-card">
         <h2>Add Transaction</h2>

@@ -4,5 +4,5 @@ export interface Transaction {
   amount: number,
   transaction_date: Date,
   type: 'income' | 'expense',
-  category: String
+  category: string
 }
