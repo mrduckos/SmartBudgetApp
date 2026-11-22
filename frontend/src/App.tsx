@@ -44,12 +44,20 @@ function App() {
   ];
 
     const monthlyTransactions = transactions.filter((transaction) => {
-    const date = new Date(transaction.transaction_date)
-    
-    const transactionMonth = date.toISOString().slice(0, 7)
+    const date = new Date(transaction.transaction_date);
 
-    return transactionMonth === selectedMonth
-  })
+    const month =
+      date.getMonth() + 1;
+
+    const year =
+      date.getFullYear();
+
+    const transactionMonth =
+      `${year}-${String(month).padStart(2, "0")}`;
+
+    return transactionMonth === selectedMonth;
+  }
+);
 
   const totalIncome = monthlyTransactions
     .filter((transaction) => transaction.type === "income")
