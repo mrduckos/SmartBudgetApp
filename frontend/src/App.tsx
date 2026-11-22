@@ -15,6 +15,12 @@ function App() {
   const [editingId, setEditingId] = useState<Number | null>(null)
   const [category, setCategory] = useState("Other Expense")
 
+    const now = new Date()
+
+  const [selectedMonth, setSelectedMonth] = useState(
+    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
+  )
+
   const incomeCategories = [
     "Salary",
     "Benefits",
@@ -37,11 +43,19 @@ function App() {
     "Other Expense",
   ];
 
-  const totalIncome = transactions
+    const monthlyTransactions = transactions.filter((transaction) => {
+    const date = new Date(transaction.transaction_date)
+    
+    const transactionMonth = date.toISOString().slice(0, 7)
+
+    return transactionMonth === selectedMonth
+  })
+
+  const totalIncome = monthlyTransactions
     .filter((transaction) => transaction.type === "income")
     .reduce((acc, transaction) => acc + Number(transaction.amount), 0)
 
-  const totalExpense = transactions
+  const totalExpense = monthlyTransactions
     .filter((transaction) => transaction.type === "expense")
     .reduce((acc, transaction) => acc + Number(transaction.amount), 0)
 
@@ -183,7 +197,7 @@ function handleEdit(transaction: Transaction) {
 
 const availableCategories = type === 'income' ? incomeCategories : expenseCagerogies
 
-const expenseTransactions = transactions.filter(
+const expenseTransactions = monthlyTransactions.filter(
   (transaction) => transaction.type === "expense"
 )
 
@@ -200,6 +214,8 @@ const expensesByCategory = expenseTransactions.reduce<
 
   const categoryEntries = Object.entries(expensesByCategory).sort(([, amountA], [, amountB]) => amountB - amountA)
 
+
+
 return (
     <main>
       <h1>Smart Budget</h1>
@@ -208,10 +224,22 @@ return (
         Manage your income and expenses with a full-stack budgeting application.
       </p>
 
+      <div className='month-selector'>
+        <label htmlFor='month'>Month</label>
+
+        <input
+          id='month'
+          type='month'
+          value={selectedMonth}
+          onChange={(event) =>
+            setSelectedMonth(event.target.value)
+          }
+        ></input>
+      </div>
        <div className="summary-container">
         <div className='summary-card transactions-card'>
           <h3>Transactions made</h3>
-          <p>{transactions.length}</p>
+          <p>{monthlyTransactions.length}</p>
         </div>
         <div className="summary-card income-card">
           <h3>Total Income</h3>
