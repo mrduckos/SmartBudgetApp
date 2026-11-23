@@ -136,6 +136,10 @@ th {
   transition: width 0.2s ease;
 }
 
+.budget-progress-bar.over-budget {
+  background: #f44336;
+}
+
 .transactions-card {
   border-top: 4px solid #a855f7;
 }

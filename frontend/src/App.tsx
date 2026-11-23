@@ -229,6 +229,8 @@ const expensesByCategory = expenseTransactions.reduce<
 
   const budgetPercentage = monthlyBudget > 0 ? (totalExpense / monthlyBudget) * 100 : 0
 
+  const isOverBudget = totalExpense > monthlyBudget
+
 
 return (
     <main>
@@ -289,14 +291,14 @@ return (
             Spent: {totalExpense.toFixed(2)} €
           </span>
 
-          <span>
+          <span className={isOverBudget ? "expense" : ""}>
             Remaining: {remainingBudget.toFixed(2)} €
           </span>
         </div>
 
         <div className='budget-progress'>
           <div 
-            className='budget-progress-bar'
+            className={`budget-progress-bar ${isOverBudget ? "over-budget" : ""}`}  
             style={{
               width: `${Math.min(budgetPercentage, 100)}%`
             }}
