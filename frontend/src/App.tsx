@@ -1,6 +1,10 @@
 import './App.css'
 import { useEffect, useState } from 'react'
 import type { Transaction } from './types/transaction'
+import DashboardCards from './components/DashboardCards'
+import BudgetCard from './components/BudgetCard'
+import CategorySummary from './components/CategorySummary'
+import TransactionTable from './components/TransactionTable'
 
 
 function App() {
@@ -252,83 +256,25 @@ return (
           }
         ></input>
       </div>
-       <div className="summary-container">
-        <div className='summary-card transactions-card'>
-          <h3>Transactions made</h3>
-          <p>{monthlyTransactions.length}</p>
-        </div>
-        <div className="summary-card income-card">
-          <h3>Total Income</h3>
-          <p className="income">{totalIncome.toFixed(2)} €</p>
-        </div>
-        <div className="summary-card expense-card">
-          <h3>Total Expense</h3>
-          <p className="expense">{totalExpense.toFixed(2)} €</p>
-        </div>
-        <div className="summary-card balance-card">
-          <h3>Balance</h3>
-          <p className="balance">{balance.toFixed(2)} €</p>
-        </div>
-      </div>
+      <DashboardCards
+        transactionCount={monthlyTransactions.length}
+        totalIncome={totalIncome}
+        totalExpense={totalExpense}
+        balance={balance}
+        />
 
-      <section className='budget-card'>
-        <div className='budget-header'>
-          <h2>Monthly Budget</h2>
+      <BudgetCard
+        monthlyBudget={monthlyBudget}
+        totalExpense={totalExpense}
+        remainingBudget={remainingBudget}
+        budgetPercentage={budgetPercentage}
+        isOverBudget={isOverBudget}
+        setMonthlyBudget={setMonthlyBudget}
+      />
 
-          <input
-            type='number'
-            min='0'
-            step='50'
-            value={monthlyBudget}
-            onChange={(event )=>
-              setMonthlyBudget(Number(event.target.value))
-            }
-          />
-        </div>
-
-        <div className='budget-values'>
-          <span>
-            Spent: {totalExpense.toFixed(2)} €
-          </span>
-
-          <span className={isOverBudget ? "expense" : ""}>
-            Remaining: {remainingBudget.toFixed(2)} €
-          </span>
-        </div>
-
-        <div className='budget-progress'>
-          <div 
-            className={`budget-progress-bar ${isOverBudget ? "over-budget" : ""}`}  
-            style={{
-              width: `${Math.min(budgetPercentage, 100)}%`
-            }}
-            />
-        </div>
-        <p>{budgetPercentage.toFixed(1)} % used </p>
-      </section>
-
-      <section className='category-summary'>
-        <h2>Expenses by category</h2>
-
-        {categoryEntries.length === 0 ? (
-          <p>No expenses yet</p>
-        ) : (
-          <div className='category-list'>
-            {categoryEntries.map(([category, amount]) => (
-              <div 
-                className='category-row'
-                key={category}
-                >
-                  <span>{category}</span>
-
-                  <strong>
-                    {amount.toFixed(2)} €
-                  </strong>
-                </div>
-            ))}
-          </div>
-        )}
-      </section>
+      <CategorySummary
+        categoryEntries={categoryEntries}
+      />
 
       <div className="form-card">
         <h2>Add Transaction</h2>
@@ -416,64 +362,12 @@ return (
           </form>
       </div>
 
-      <h2>Transactions</h2>
+      <TransactionTable
+        transactions={transactions}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
 
-      <table>
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Category</th>
-            <th className="actions-column">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {transactions.map((transaction) => (
-            <tr key={transaction.id}>
-              <td>{transaction.description}</td>
-              <td>{transaction.amount}€</td>
-              <td 
-                className={
-                  transaction.type === 'income' ? 'income' : 'expense'
-                }
-              >
-                {transaction.type}
-              </td>
-              <td>
-                {new Date(
-                  transaction.transaction_date
-                  ).toLocaleDateString('fi-FI')}
-              </td>
-              <td>{transaction.category}</td>
-              <td className="actions-column">
-                <button
-                  className="delete-button"
-                  onClick={() => {
-                    const confirmed = window.confirm (
-                      "Are you sure you want to delete this transaction?"
-                    )
-
-                    if (confirmed) {
-                      handleDelete(transaction.id)
-                    }
-                  }}
-                >
-                  Delete
-                </button>
-                <button 
-                  className='edit-button'
-                  onClick={() => handleEdit(transaction)}
-                  >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </main>
   )
 }
