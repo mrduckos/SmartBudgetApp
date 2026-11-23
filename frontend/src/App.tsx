@@ -21,6 +21,8 @@ function App() {
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
   )
 
+  const [monthlyBudget, setMonthlyBudget] = useState<number>(1000)
+
   const incomeCategories = [
     "Salary",
     "Benefits",
@@ -223,6 +225,10 @@ const expensesByCategory = expenseTransactions.reduce<
   const categoryEntries = Object.entries(expensesByCategory).sort(([, amountA], [, amountB]) => amountB - amountA)
 
 
+  const remainingBudget = monthlyBudget - totalExpense
+
+  const budgetPercentage = monthlyBudget > 0 ? (totalExpense / monthlyBudget) * 100 : 0
+
 
 return (
     <main>
@@ -262,6 +268,42 @@ return (
           <p className="balance">{balance.toFixed(2)} €</p>
         </div>
       </div>
+
+      <section className='budget-card'>
+        <div className='budget-header'>
+          <h2>Monthly Budget</h2>
+
+          <input
+            type='number'
+            min='0'
+            step='50'
+            value={monthlyBudget}
+            onChange={(event )=>
+              setMonthlyBudget(Number(event.target.value))
+            }
+          />
+        </div>
+
+        <div className='budget-values'>
+          <span>
+            Spent: {totalExpense.toFixed(2)} €
+          </span>
+
+          <span>
+            Remaining: {remainingBudget.toFixed(2)} €
+          </span>
+        </div>
+
+        <div className='budget-progress'>
+          <div 
+            className='budget-progress-bar'
+            style={{
+              width: `${Math.min(budgetPercentage, 100)}%`
+            }}
+            />
+        </div>
+        <p>{budgetPercentage.toFixed(1)} % used </p>
+      </section>
 
       <section className='category-summary'>
         <h2>Expenses by category</h2>

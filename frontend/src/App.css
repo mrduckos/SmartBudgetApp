@@ -93,6 +93,49 @@ th {
   font-weight: bold;
 }
 
+.budget-card {
+  background: #242424;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 2rem 0;
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.budget-header h2 {
+  margin: 0;
+}
+
+.budget-header input {
+  max-width: 160px;
+}
+
+.budget-values {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0 0.75rem;
+}
+
+.budget-progress {
+  width: 100%;
+  height: 12px;
+  background: #333;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.budget-progress-bar {
+  height: 100%;
+  background: #7b3fe4;
+  transition: width 0.2s ease;
+}
+
 .transactions-card {
   border-top: 4px solid #a855f7;
 }
