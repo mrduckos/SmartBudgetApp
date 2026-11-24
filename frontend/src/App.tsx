@@ -5,6 +5,8 @@ import DashboardCards from './components/DashboardCards'
 import BudgetCard from './components/BudgetCard'
 import CategorySummary from './components/CategorySummary'
 import TransactionTable from './components/TransactionTable'
+import TransactionForm from './components/TransactionForm'
+
 
 
 function App() {
@@ -16,7 +18,7 @@ function App() {
   const [type, setType] = useState<"income" | "expense">("expense")
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
-  const [editingId, setEditingId] = useState<Number | null>(null)
+  const [editingId, setEditingId] = useState<number | null>(null)
   const [category, setCategory] = useState("Other Expense")
 
     const now = new Date()
@@ -240,134 +242,84 @@ return (
     <main>
       <h1>Smart Budget</h1>
 
-      <p className='app-description'>
-        Manage your income and expenses with a full-stack budgeting application.
-      </p>
+    <p className="app-description">
+      Manage your income and expenses with a
+      full-stack budgeting application.
+    </p>
 
-      <div className='month-selector'>
-        <label htmlFor='month'>Month</label>
+    <div className="month-selector">
+      <label htmlFor="month">
+        Month
+      </label>
 
-        <input
-          id='month'
-          type='month'
-          value={selectedMonth}
-          onChange={(event) =>
-            setSelectedMonth(event.target.value)
-          }
-        ></input>
-      </div>
-      <DashboardCards
-        transactionCount={monthlyTransactions.length}
-        totalIncome={totalIncome}
-        totalExpense={totalExpense}
-        balance={balance}
-        />
-
-      <BudgetCard
-        monthlyBudget={monthlyBudget}
-        totalExpense={totalExpense}
-        remainingBudget={remainingBudget}
-        budgetPercentage={budgetPercentage}
-        isOverBudget={isOverBudget}
-        setMonthlyBudget={setMonthlyBudget}
+      <input
+        id="month"
+        type="month"
+        value={selectedMonth}
+        onChange={(event) =>
+          setSelectedMonth(
+            event.target.value
+          )
+        }
       />
+    </div>
 
-      <CategorySummary
-        categoryEntries={categoryEntries}
-      />
+    <DashboardCards
+      transactionCount={
+        monthlyTransactions.length
+      }
+      totalIncome={totalIncome}
+      totalExpense={totalExpense}
+      balance={balance}
+    />
 
-      <div className="form-card">
-        <h2>Add Transaction</h2>
+    <BudgetCard
+      monthlyBudget={monthlyBudget}
+      totalExpense={totalExpense}
+      remainingBudget={
+        remainingBudget
+      }
+      budgetPercentage={
+        budgetPercentage
+      }
+      isOverBudget={isOverBudget}
+      setMonthlyBudget={
+        setMonthlyBudget
+      }
+    />
 
-          <form className="transaction-form"
-          onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <input
-              type="number"
-              step="0.01"
-              min="0.01"
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => setAmount(parseFloat(e.target.value))}
-            />
-            <input
-              type="date"
-              value={transactionDate}
-              onChange={(e) => setTransactionDate(e.target.value)}
-              />
-              <div className="type-selector">
-                <button
-                  type="button"
-                  className={type === "income" ? "active-income" : ""}
-                  onClick={() => {
-                    setType("income")
-                    setCategory("Salary")
-                  }}
-                >
-                  Income
-                </button>
-                <button
-                  type="button"
-                  className={type === "expense" ? "active-expense" : ""}
-                  onClick={() => {
-                    setType("expense")
-                    setCategory("Food")
-                  }}
-                >
-                  Expense
-                </button>
-                <select 
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  {availableCategories.map((categoryOption) => (
-                    <option 
-                      key={categoryOption}
-                      value={categoryOption}
-                    >
-                      {categoryOption}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <button type="submit" disabled={isSaving}>
-                {isSaving
-                  ? "Saving..."
-                  : editingId
-                    ? "Update Transaction"
-                    : "Add Transaction"}
-              </button>
+    <CategorySummary
+      categoryEntries={categoryEntries}
+    />
 
-              {editingId && (
-                <button 
-                  type='button'
-                  onClick={() => {
-                    setEditingId(null);
-                    setDescription("");
-                    setAmount(0);
-                    setTransactionDate("");
-                    setType("expense");
-                  }}
-                >
-                  Cancel
-                </button>
-              )}
+    <TransactionForm
+      description={description}
+      setDescription={setDescription}
+      amount={amount}
+      setAmount={setAmount}
+      transactionDate={transactionDate}
+      setTransactionDate={
+        setTransactionDate
+      }
+      type={type}
+      setType={setType}
+      category={category}
+      setCategory={setCategory}
+      availableCategories={
+        availableCategories
+      }
+      editingId={editingId}
+      setEditingId={setEditingId}
+      isSaving={isSaving}
+      message={message}
+      handleSubmit={handleSubmit}
+    />
 
-              {message && <p className="form-message">{message}</p>}
-          </form>
-      </div>
-
-      <TransactionTable
-        transactions={transactions}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-      />
-
+    <TransactionTable
+      transactions={transactions}
+      handleDelete={handleDelete}
+      handleEdit={handleEdit}
+    />
     </main>
   )
 }
