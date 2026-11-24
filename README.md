@@ -37,8 +37,8 @@ Upcoming:
 - Charts
 - Authentication
 
-<img width="845" height="777" alt="image" src="https://github.com/user-attachments/assets/187e9a11-9999-4f1f-9496-da2839bd8c84" />
-<img width="747" height="777" alt="image" src="https://github.com/user-attachments/assets/59648ffe-1aa1-412d-8576-e23e0721416f" />
+<img width="1440" height="784" alt="image" src="https://github.com/user-attachments/assets/a43f066e-41c9-4d1e-baa3-7399b49edacb" />
+<img width="1440" height="784" alt="image" src="https://github.com/user-attachments/assets/821dd63f-2e39-4f9c-a2f3-e01c8a688ce7" />
 
 (the transactions shown aren't real and are only for showing how the application works)
 
