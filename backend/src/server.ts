@@ -2,6 +2,7 @@ import express from "express"
 import transactionsRouter from "./routes/transactions.js"
 import { pool } from "./db/database.js"
 import cors from "cors"
+import budgetsRouter from "./routes/budgets.js"
 
 const app = express()
 
@@ -35,3 +36,5 @@ app.get("/api/health", async (_req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`)
 })
+
+app.use("/api/budgets", budgetsRouter)
