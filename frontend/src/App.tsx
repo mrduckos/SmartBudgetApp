@@ -264,10 +264,12 @@ return (
       />
     </div>
 
+<div className="top-layout">
+
+  <div className="dashboard-content">
+
     <DashboardCards
-      transactionCount={
-        monthlyTransactions.length
-      }
+      transactionCount={monthlyTransactions.length}
       totalIncome={totalIncome}
       totalExpense={totalExpense}
       balance={balance}
@@ -276,21 +278,19 @@ return (
     <BudgetCard
       monthlyBudget={monthlyBudget}
       totalExpense={totalExpense}
-      remainingBudget={
-        remainingBudget
-      }
-      budgetPercentage={
-        budgetPercentage
-      }
+      remainingBudget={remainingBudget}
+      budgetPercentage={budgetPercentage}
       isOverBudget={isOverBudget}
-      setMonthlyBudget={
-        setMonthlyBudget
-      }
+      setMonthlyBudget={setMonthlyBudget}
     />
 
     <CategorySummary
       categoryEntries={categoryEntries}
     />
+
+  </div>
+
+  <div className="form-sidebar">
 
     <TransactionForm
       description={description}
@@ -298,22 +298,22 @@ return (
       amount={amount}
       setAmount={setAmount}
       transactionDate={transactionDate}
-      setTransactionDate={
-        setTransactionDate
-      }
+      setTransactionDate={setTransactionDate}
       type={type}
       setType={setType}
       category={category}
       setCategory={setCategory}
-      availableCategories={
-        availableCategories
-      }
+      availableCategories={availableCategories}
       editingId={editingId}
       setEditingId={setEditingId}
       isSaving={isSaving}
       message={message}
       handleSubmit={handleSubmit}
     />
+
+  </div>
+
+</div>
 
     <TransactionTable
       transactions={transactions}

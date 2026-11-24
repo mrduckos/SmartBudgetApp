@@ -3,6 +3,11 @@ body {
   margin: 0;
 }
 
+#root {
+  max-width: none;
+  width: 100%;
+}
+
 *,
 *::before,
 *::after {
@@ -10,13 +15,17 @@ body {
 }
 
 main {
-  max-width: 1000px;
+  max-width: 1800px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
 }
 
 h1 {
   color: #a78bfa;
+}
+
+h2 {
+  margin-top: 2rem;
 }
 
 ul {
@@ -34,7 +43,7 @@ ul {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 th,
@@ -66,14 +75,26 @@ th {
   width: auto;
 }
 
+.top-layout {
+  display: grid;
+  grid-template-columns: 4fr 1.3fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.form-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
 .summary-container {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  margin-top: 2rem 0;
 }
 
 .summary-card {
+  min-height: 110px;
   flex: 1;
   padding: 1.5rem;
   border-radius: 12px;
@@ -89,8 +110,14 @@ th {
 
 .summary-card p {
   margin-top: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .budget-card {
@@ -98,7 +125,7 @@ th {
   border: 1px solid #444;
   border-radius: 12px;
   padding: 1.25rem;
-  margin: 2rem 0;
+  margin: 0;
 }
 
 .budget-header {
@@ -124,7 +151,7 @@ th {
 
 .budget-progress {
   width: 100%;
-  height: 12px;
+  height: 14px;
   background: #333;
   border-radius: 999px;
   overflow: hidden;
@@ -134,6 +161,7 @@ th {
   height: 100%;
   background: #7b3fe4;
   transition: width 0.2s ease;
+  box-shadow: 0 0 10px rgba(123, 63, 228, 0.4);
 }
 
 .budget-progress-bar.over-budget {
@@ -160,9 +188,13 @@ th {
   border-top: 4px solid #2196f3;
 }
 
-.category-summay {
-  max-width: 600px;
-  margin: 2rem auto;
+.category-summary {
+  background: #242424;
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5 rem;
+  max-width: none;
+  margin: 0;
 }
 
 .category-list {
@@ -203,10 +235,10 @@ th {
 
 .form-card {
   background: #242424;
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 12px;
-  margin: 2rem auto;
-  max-width: 500px;
+  margin: 0;
+  width: 100%;
 }
 
 .amount-column {
@@ -303,8 +335,14 @@ button.delete-button:hover {
   text-align: center;
 }
 
-@media (max-width: 700px) {
-  .summary-container {
-    flex-direction: column;
+@media (max-width: 1000px) {
+
+  .top-layout {
+    grid-template-columns: 1fr;
   }
+
+  .form-sidebar {
+    position: static;
+  }
+
 }
