@@ -29,6 +29,7 @@ function App() {
 
   const [monthlyBudget, setMonthlyBudget] = useState<number>(0)
   const [ isBudgetLoading, setIsBudgetLoading] = useState(false)
+  const [ isBudgetSaving, setIsBudgetSaving ] = useState(false)
 
   const incomeCategories = [
     "Salary",
@@ -245,6 +246,7 @@ function handleEdit(transaction: Transaction) {
 }
 
 async function saveBudget() {
+  setIsBudgetSaving(true)
   try {
     const response = await fetch(
       `http://localhost:3001/api/budgets/${selectedMonth}`,
@@ -269,6 +271,8 @@ async function saveBudget() {
     setMonthlyBudget(Number(data.amount))
   } catch (error) {
     console.error("Failed to save budget: ", error)
+  } finally {
+    setIsBudgetSaving(false)
   }
 }
 
@@ -343,6 +347,7 @@ return (
   budgetPercentage={budgetPercentage}
   isOverBudget={isOverBudget}
   isBudgetLoading={isBudgetLoading}
+  isBudgetSaving={isBudgetSaving}
   setMonthlyBudget={setMonthlyBudget}
   saveBudget={saveBudget}
 />
