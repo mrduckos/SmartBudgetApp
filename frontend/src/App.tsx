@@ -27,7 +27,8 @@ function App() {
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
   )
 
-  const [monthlyBudget, setMonthlyBudget] = useState<number>(1000)
+  const [monthlyBudget, setMonthlyBudget] = useState<number>(0)
+  const [ isBudgetLoading, setIsBudgetLoading] = useState(false)
 
   const incomeCategories = [
     "Salary",
@@ -96,6 +97,38 @@ useEffect(() => {
   }
   fetchTransactions()
 }, [])
+
+useEffect(() => {
+  async function fetchBudget() {
+    setIsBudgetLoading(true)
+
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/budgets/${selectedMonth}`
+      )
+
+      if(response.status === 404) {
+        setMonthlyBudget(0)
+        return
+      }
+
+      if(!response.ok) {
+        throw new Error("Failed to fetch budget")
+      }
+
+      const data = await response.json()
+
+      setMonthlyBudget(Number(data.amount))
+
+    } catch (error) {
+      console.error("Failed to load budget: " + error)
+    } finally {
+      setIsBudgetLoading(false)
+    }
+  }
+
+  fetchBudget()
+}, [selectedMonth])
 
 async function handleSubmit(
   event: React.FormEvent<HTMLFormElement>
@@ -211,6 +244,34 @@ function handleEdit(transaction: Transaction) {
 
 }
 
+async function saveBudget() {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/budgets/${selectedMonth}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          amount: monthlyBudget
+        }),
+      }
+    )
+    const data = await response.json()
+
+    if(!response.ok) {
+      throw new Error (
+        data.message || "Failed to save budget"
+      )
+    }
+
+    setMonthlyBudget(Number(data.amount))
+  } catch (error) {
+    console.error("Failed to save budget: ", error)
+  }
+}
+
 const availableCategories = type === 'income' ? incomeCategories : expenseCagerogies
 
 const expenseTransactions = monthlyTransactions.filter(
@@ -276,13 +337,15 @@ return (
     />
 
     <BudgetCard
-      monthlyBudget={monthlyBudget}
-      totalExpense={totalExpense}
-      remainingBudget={remainingBudget}
-      budgetPercentage={budgetPercentage}
-      isOverBudget={isOverBudget}
-      setMonthlyBudget={setMonthlyBudget}
-    />
+  monthlyBudget={monthlyBudget}
+  totalExpense={totalExpense}
+  remainingBudget={remainingBudget}
+  budgetPercentage={budgetPercentage}
+  isOverBudget={isOverBudget}
+  isBudgetLoading={isBudgetLoading}
+  setMonthlyBudget={setMonthlyBudget}
+  saveBudget={saveBudget}
+/>
 
     <CategorySummary
       categoryEntries={categoryEntries}
