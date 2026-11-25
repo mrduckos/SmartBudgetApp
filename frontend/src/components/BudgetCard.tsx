@@ -27,18 +27,18 @@ export default function BudgetCard ({
 } : BudgetCardProps) {
     return (
   <section className="budget-card">
-
     {isBudgetLoading ? (
-
       <p>Loading budget...</p>
-
     ) : (
-
       <>
         <div className="budget-header">
           <h2>Monthly Budget</h2>
 
           <div className="budget-controls">
+            <div className="budget-pill">
+              Budget: {monthlyBudget.toFixed(2)} €
+            </div>
+
             <input
               type="number"
               min="0"
@@ -99,9 +99,7 @@ export default function BudgetCard ({
           used
         </p>
       </>
-
     )}
-
   </section>
     )
 }
