@@ -312,6 +312,8 @@ const expensesByCategory = expenseTransactions.reduce<
 
   const isOverBudget = totalExpense > monthlyBudget
 
+  const isWarningBudget = budgetPercentage >= 90 && budgetPercentage < 100
+
   const hasUnsavedBudgetChanges = monthlyBudget !== savedBudget
 
 
@@ -358,6 +360,7 @@ return (
   remainingBudget={remainingBudget}
   budgetPercentage={budgetPercentage}
   isOverBudget={isOverBudget}
+  isWarningBudget={isWarningBudget}
   isBudgetLoading={isBudgetLoading}
   isBudgetSaving={isBudgetSaving}
   hasUnsavedChanges={hasUnsavedBudgetChanges}

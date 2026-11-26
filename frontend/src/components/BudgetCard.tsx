@@ -4,9 +4,10 @@ type BudgetCardProps = {
   remainingBudget: number;
   budgetPercentage: number;
   isOverBudget: boolean;
+  isWarningBudget: boolean;
   isBudgetLoading: boolean;
   isBudgetSaving: boolean;
-  hasUnsavedChanges: boolean,
+  hasUnsavedChanges: boolean;
 
   setMonthlyBudget: React.Dispatch<
     React.SetStateAction<number>
@@ -21,6 +22,7 @@ export default function BudgetCard ({
     remainingBudget,
     budgetPercentage,
     isOverBudget,
+    isWarningBudget,
     isBudgetLoading,
     isBudgetSaving,
     hasUnsavedChanges,
@@ -37,9 +39,6 @@ export default function BudgetCard ({
           <h2>Monthly Budget</h2>
 
           <div className="budget-controls">
-            <div className="budget-pill">
-              Budget: {monthlyBudget.toFixed(2)} €
-            </div>
 
             <input
               type="number"
@@ -70,28 +69,39 @@ export default function BudgetCard ({
           </div>
         </div>
 
-        <div className="budget-values">
-          <span>
-            Spent: {totalExpense.toFixed(2)} €
-          </span>
+        <div className="budget-stats">
 
-          <span
-            className={
-              isOverBudget ? "expense" : ""
-            }
-          >
-            Remaining:{" "}
-            {remainingBudget.toFixed(2)} €
-          </span>
+          <div className="budget-stat">
+            <span>Budget</span>
+            <strong>
+              {monthlyBudget.toFixed(2)} €
+            </strong>
+          </div>
+
+          <div className="budget-stat">
+            <span>Spent</span>
+            <strong>
+              {totalExpense.toFixed(2)} €
+            </strong>
+          </div>
+
+          <div className="budget-stat">
+            <span>Remaining</span>
+
+            <strong
+              className={
+                isOverBudget ? "expense" : "income"
+              }
+            >
+              {remainingBudget.toFixed(2)} €
+            </strong>
+          </div>
+
         </div>
 
         <div className="budget-progress">
           <div
-            className={`budget-progress-bar ${
-              isOverBudget
-                ? "over-budget"
-                : ""
-            }`}
+            className={`budget-progress-bar ${isWarningBudget ? "warning-budget" : ""} ${isOverBudget ? "over-budget" : ""}`}
             style={{
               width: `${Math.min(
                 budgetPercentage,
