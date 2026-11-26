@@ -6,6 +6,7 @@ type BudgetCardProps = {
   isOverBudget: boolean;
   isBudgetLoading: boolean;
   isBudgetSaving: boolean;
+  hasUnsavedChanges: boolean,
 
   setMonthlyBudget: React.Dispatch<
     React.SetStateAction<number>
@@ -22,6 +23,7 @@ export default function BudgetCard ({
     isOverBudget,
     isBudgetLoading,
     isBudgetSaving,
+    hasUnsavedChanges,
     setMonthlyBudget,
     saveBudget,
 } : BudgetCardProps) {
@@ -54,12 +56,17 @@ export default function BudgetCard ({
             <button
               type="button"
               onClick={saveBudget}
-              disabled={isBudgetSaving}
+              disabled={isBudgetSaving || !hasUnsavedChanges}
             >
               {isBudgetSaving
                 ? "Saving..."
                 : "Save Budget"}
             </button>
+
+            <p className={hasUnsavedChanges ? "budget-unsaved" : "budget-saved"}
+              >
+                {hasUnsavedChanges ? "Unsaved changes" : "✓ Saved"}
+            </p>
           </div>
         </div>
 

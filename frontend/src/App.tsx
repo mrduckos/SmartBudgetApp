@@ -30,6 +30,7 @@ function App() {
   const [monthlyBudget, setMonthlyBudget] = useState<number>(0)
   const [ isBudgetLoading, setIsBudgetLoading] = useState(false)
   const [ isBudgetSaving, setIsBudgetSaving ] = useState(false)
+  const [ savedBudget, setSavedBudget ] = useState<number>(0)
 
   const incomeCategories = [
     "Salary",
@@ -110,6 +111,8 @@ useEffect(() => {
 
       if(response.status === 404) {
         setMonthlyBudget(0)
+        setSavedBudget(0)
+
         return
       }
 
@@ -119,7 +122,10 @@ useEffect(() => {
 
       const data = await response.json()
 
-      setMonthlyBudget(Number(data.amount))
+      const budgetAmount = Number(data.amount)
+
+      setMonthlyBudget(budgetAmount)
+      setSavedBudget(budgetAmount)
 
     } catch (error) {
       console.error("Failed to load budget: " + error)
@@ -268,7 +274,11 @@ async function saveBudget() {
       )
     }
 
-    setMonthlyBudget(Number(data.amount))
+    const savedAmount = Number(data.amount)
+
+    setMonthlyBudget(savedAmount)
+    setSavedBudget(savedAmount)
+
   } catch (error) {
     console.error("Failed to save budget: ", error)
   } finally {
@@ -301,6 +311,8 @@ const expensesByCategory = expenseTransactions.reduce<
   const budgetPercentage = monthlyBudget > 0 ? (totalExpense / monthlyBudget) * 100 : 0
 
   const isOverBudget = totalExpense > monthlyBudget
+
+  const hasUnsavedBudgetChanges = monthlyBudget !== savedBudget
 
 
 return (
@@ -348,6 +360,7 @@ return (
   isOverBudget={isOverBudget}
   isBudgetLoading={isBudgetLoading}
   isBudgetSaving={isBudgetSaving}
+  hasUnsavedChanges={hasUnsavedBudgetChanges}
   setMonthlyBudget={setMonthlyBudget}
   saveBudget={saveBudget}
 />
