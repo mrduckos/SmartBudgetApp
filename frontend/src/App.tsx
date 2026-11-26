@@ -310,9 +310,9 @@ const expensesByCategory = expenseTransactions.reduce<
 
   const budgetPercentage = monthlyBudget > 0 ? (totalExpense / monthlyBudget) * 100 : 0
 
-  const isOverBudget = totalExpense > monthlyBudget
+  const isOverBudget = budgetPercentage > 90;
 
-  const isWarningBudget = budgetPercentage >= 90 && budgetPercentage < 100
+  const isWarningBudget = budgetPercentage >= 70 && budgetPercentage < 90
 
   const hasUnsavedBudgetChanges = monthlyBudget !== savedBudget
 
