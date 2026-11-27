@@ -151,6 +151,20 @@ tbody tr:hover {
   font-weight: 700;
 }
 
+.summary-card small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.trend-positive {
+  color: var(--income);
+}
+
+.trend-negative{
+  color: var(--expense);
+}
+
 .balance-card {
   order: 1;
   background: var(--surface-2);

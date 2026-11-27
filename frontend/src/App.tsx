@@ -316,6 +316,52 @@ const expensesByCategory = expenseTransactions.reduce<
 
   const hasUnsavedBudgetChanges = monthlyBudget !== savedBudget
 
+  function getPreviousMonth(month: string) {
+    const [year, monthNumber] = month.split("-").map(Number)
+
+    const date = new Date(year, monthNumber - 1, 1)
+
+    date.setMonth(date.getMonth() - 1)
+
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`
+  }
+
+  function getTransactionMonth(transactionDate: string) {
+    const date = new Date(transactionDate)
+
+    return `${date.getFullYear()}-${String( date.getMonth() + 1).padStart(2, "0")}`;
+  }
+
+  const previousMonth = getPreviousMonth(selectedMonth)
+
+  const previousMonthTransactions = transactions.filter(
+    (transaction) => getTransactionMonth(transaction.transaction_date) === previousMonth
+  )
+
+  const previousIncome = previousMonthTransactions.filter(
+    (transaction) => transaction.type === "income"
+  ).reduce(
+    (sum, transaction) => sum + Number(transaction.amount), 0
+  )
+  
+  const previousExpense = previousMonthTransactions.filter (
+    (transaction) => transaction.type === "expense"
+  ).reduce (
+    (sum, transaction) => sum + Number(transaction.amount), 0
+  )
+
+  function calculatePercentageChange(current: number, previous: number) {
+    if (previous === 0) {
+      return null
+    }
+
+    return (((current - previous) / previous) * 100)
+  }
+
+  const incomeChange = calculatePercentageChange(totalIncome, previousIncome)
+
+  const expenseChange = calculatePercentageChange(totalExpense, previousExpense)
+  
 
 return (
     <main>
@@ -352,6 +398,8 @@ return (
       totalIncome={totalIncome}
       totalExpense={totalExpense}
       balance={balance}
+      incomeChange={incomeChange}
+      expenseChange={expenseChange}
     />
 
     <BudgetCard
