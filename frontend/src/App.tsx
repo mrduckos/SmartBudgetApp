@@ -361,6 +361,8 @@ const expensesByCategory = expenseTransactions.reduce<
   const incomeChange = calculatePercentageChange(totalIncome, previousIncome)
 
   const expenseChange = calculatePercentageChange(totalExpense, previousExpense)
+
+  const savingsRate = totalIncome > 0 ? ((balance) / totalIncome) * 100 : null
   
 
 return (
@@ -400,6 +402,7 @@ return (
       balance={balance}
       incomeChange={incomeChange}
       expenseChange={expenseChange}
+      savingsRate={savingsRate}
     />
 
     <BudgetCard

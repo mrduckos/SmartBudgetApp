@@ -5,6 +5,7 @@ type DashboardCardsProps = {
     balance: number;
     incomeChange: number | null;
     expenseChange: number | null;
+    savingsRate: number | null;
 }
 
 export default function DashboardCards ({
@@ -14,6 +15,7 @@ export default function DashboardCards ({
     balance,
     incomeChange,
     expenseChange,
+    savingsRate,
 }: DashboardCardsProps) {
     return (
          <div className="summary-container">
@@ -50,6 +52,12 @@ export default function DashboardCards ({
         <div className="summary-card balance-card">
           <h3>Balance</h3>
           <p className="balance">{balance.toFixed(2)} €</p>
+          <small className={savingsRate !== null && savingsRate < 0 ? "trend-negative" : "savings-rate"}>
+            Savings rate:{" "}
+            {
+              savingsRate !== null  ? `${savingsRate.toFixed(1)} %` : "N/A"
+            }
+          </small>
         </div>
       </div>
     )

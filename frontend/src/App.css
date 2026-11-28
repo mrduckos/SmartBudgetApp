@@ -175,6 +175,11 @@ tbody tr:hover {
   color: var(--text);
 }
 
+.savings-rate {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
 .income-card {
   order: 2;
 }
